@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace bars
+namespace BarsRep
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello Bars!");
+            var kb = new KeyboardSubscriber();
         }
     }
 }
