@@ -1,0 +1,18 @@
+[Info]: [Int32] : intLogger LogInfo
+[Warning]: [Int32] : intLogger LogWarning
+[Error]: [Int32] : intLogger LogError
+[Info]: [String] : string
+[Warning]: [String] : string
+[Error]: [String] : string
+[Info]: [Boolean] : boolLogger LogInfo
+[Warning]: [Boolean] : boolLogger LogWarning
+[Error]: [Boolean] : boolLogger LogError
+[Info]: [Int32] : intLogger LogInfo
+[Warning]: [Int32] : intLogger LogWarning
+[Error]: [Int32] : intLogger LogError
+[Info]: [String] : string
+[Warning]: [String] : string
+[Error]: [String] : string
+[Info]: [Boolean] : boolLogger LogInfo
+[Warning]: [Boolean] : boolLogger LogWarning
+[Error]: [Boolean] : boolLogger LogError

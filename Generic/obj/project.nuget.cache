@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9by/Wq9+Xo9KRPOZi66waAsMVoV2oC7CkLAB5zSYkiKHykrX5LX9T9QRP1ebqZa36jlFjUR0pCrniRWbaoDPuQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Elvina\\Desktop\\ОАИП\\Generic\\Generic\\Generic.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Elvina\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.15\\microsoft.netcore.app.host.win-x64.5.0.15.nupkg.sha512"
+  ],
+  "logs": []
+}
