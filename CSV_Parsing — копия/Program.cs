@@ -13,7 +13,8 @@ namespace CSV_Parsing
             string[] arrSplit = new string[] {"=", ";"};
             Stopwatch stopwatch = new Stopwatch();
             string path = @"text";
-            string[] newName = new string []{"1","2","3","4","5",};
+            string newName;
+            string[] newNames;
             Task[] tasks;
 
             if (Directory.Exists(path))
@@ -21,6 +22,12 @@ namespace CSV_Parsing
                 string[] filesArr = Directory.GetFiles(path);
                 
                 tasks = new Task[filesArr.Length];
+                newNames = new string[filesArr.Length];
+                for (int i = 0; i < newNames.Length; ++i)
+                {
+                    newNames[i] = Console.ReadLine();
+                }
+
                 stopwatch.Start();
 
                 for (var i = 0; i < tasks.Length; ++i)
@@ -29,7 +36,7 @@ namespace CSV_Parsing
                     {
                         if (i < tasks.Length)
                         {
-                            ParsingText(filesArr[i], newName[i]);
+                            ParsingText(filesArr[i], newNames[i]);
                         }
                     });
                 }
