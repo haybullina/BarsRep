@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSV_Parsing
 {
     class Program
     {
+        static Stopwatch stopwatch = new Stopwatch();
         static void Main(string[] args)
         {
             string[] arrSplit = new string[] {"=", ";"};
-            Stopwatch stopwatch = new Stopwatch();
             string path = @"text";
-            string newName;
-            string[] newNames;
+            string newName = "";
             Task[] tasks;
 
             if (Directory.Exists(path))
@@ -22,31 +20,29 @@ namespace CSV_Parsing
                 string[] filesArr = Directory.GetFiles(path);
                 
                 tasks = new Task[filesArr.Length];
-                newNames = new string[filesArr.Length];
-                for (int i = 0; i < newNames.Length; ++i)
-                {
-                    newNames[i] = Console.ReadLine();
-                }
-
                 stopwatch.Start();
 
                 for (var i = 0; i < tasks.Length; ++i)
                 {
+                    Console.WriteLine(filesArr[i]);
+                    newName = Console.ReadLine();
+                    
                     tasks[i] = Task.Run(() =>
                     {
-                        if (i < tasks.Length)
+                        if (i >= tasks.Length)
                         {
-                            ParsingText(filesArr[i], newNames[i]);
+                            i--;
                         }
+                        ParsingText(filesArr[i], newName);
                     });
                 }
                 Task.WaitAll(tasks);
-                stopwatch.Stop();
                 Console.WriteLine(stopwatch.Elapsed);
             }
 
             static void ParsingText(string path, string newName)
             {
+                stopwatch.Start();
                 string[] arrSplit = new string[] {"=", ";"};
 
                 using (StreamWriter newFile = new StreamWriter($"{newName}.txt"))
@@ -70,6 +66,7 @@ namespace CSV_Parsing
                         }
                     }
                 }
+                stopwatch.Stop();
             }
         }
     }
