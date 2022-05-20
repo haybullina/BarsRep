@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CSV_Parsing
@@ -8,44 +9,44 @@ namespace CSV_Parsing
     class Program
     {
         static Stopwatch stopwatch = new Stopwatch();
+        static int tempName = 0;
+        static StringBuilder builder = new StringBuilder();
+        static object locker = new();
+
         static void Main(string[] args)
         {
-            string[] arrSplit = new string[] {"=", ";"};
             string path = @"text";
-            string newName = "";
             Task[] tasks;
+            stopwatch.Start();
 
             if (Directory.Exists(path))
             {
                 string[] filesArr = Directory.GetFiles(path);
-                
-                tasks = new Task[filesArr.Length];
-                stopwatch.Start();
 
-                for (var i = 0; i < tasks.Length; ++i)
+                tasks = new Task[filesArr.Length];
+
+                foreach (var file in filesArr)
                 {
-                    Console.WriteLine(filesArr[i]);
-                    newName = Console.ReadLine();
-                    
-                    tasks[i] = Task.Run(() =>
-                    {
-                        if (i >= tasks.Length)
-                        {
-                            i--;
-                        }
-                        ParsingText(filesArr[i], newName);
-                    });
+                    tasks = new[] {Task.Run(() => { ParsingText(file); })};
                 }
+
                 Task.WaitAll(tasks);
+
+                builder.Append(File.ReadAllText($"new\\{tempName++}.txt"));
+                File.WriteAllText("new\\fileOutput.txt", builder.ToString());
+
+                stopwatch.Stop();
                 Console.WriteLine(stopwatch.Elapsed);
             }
+        }
 
-            static void ParsingText(string path, string newName)
+        static void ParsingText(string path)
+        {
+            //stopwatch.Start();
+            lock (locker)
             {
-                stopwatch.Start();
                 string[] arrSplit = new string[] {"=", ";"};
-
-                using (StreamWriter newFile = new StreamWriter($"{newName}.txt"))
+                using (StreamWriter newFile = new StreamWriter($"new\\{tempName++}.txt"))
                 {
                     using (StreamReader file = new StreamReader(path))
                     {
@@ -56,17 +57,18 @@ namespace CSV_Parsing
                             if (temp == null) break;
 
                             string[] arrayTemp = temp.Split(arrSplit, StringSplitOptions.RemoveEmptyEntries);
-                            if (temp.Split()[0] == "Play")
+
+                            if (temp.StartsWith("Play"))
                             {
                                 string dateTime = (DateTime.Parse(arrayTemp[6]) - DateTime.Parse(arrayTemp[4]))
                                     .Seconds.ToString();
-                                newFile.Write($"{arrayTemp[2]}, {arrayTemp[4]}, {dateTime}");
-                                newFile.WriteLine();
+                                newFile.WriteLine($"{arrayTemp[2]}, {arrayTemp[4]}, {dateTime}");
                             }
                         }
                     }
+                    
                 }
-                stopwatch.Stop();
+                //stopwatch.Stop();
             }
         }
     }
